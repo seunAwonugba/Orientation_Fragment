@@ -1,0 +1,2 @@
+rootProject.name = "AddandRemoveFragments"
+include ':app'

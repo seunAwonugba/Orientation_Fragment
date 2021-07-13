@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">updateDifferentStateOfActivities</string>
+    <string name="stateUpdate">Current State: %1$d</string>
+    <string name="orientation">Current Orientation: %1$s</string>
+    <string name="portraitValue">Portrait Count: %1$d</string>
+    <string name="landscapeValue">Landscape Count: %1$d</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
