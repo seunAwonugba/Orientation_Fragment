@@ -1,6 +1,8 @@
 package com.raywenderlich.timefighter.updatedifferentstateofactivities
 
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -8,8 +10,9 @@ class MainActivity : AppCompatActivity() {
     /**
      * Declare an initial value for both orientation and portraite value
      */
+    var countPortrait = 0;
+    var countLandscape = 0;
 
-    internal var count = 0;
 
     /**
      *Declare a variable that creates an instance of the text view that updates states
@@ -19,19 +22,60 @@ class MainActivity : AppCompatActivity() {
     internal lateinit var getPortraitTextView: TextView;
     internal lateinit var getLandscapeTextView: TextView;
 
+    /**
+     * On save Instant state that handles changes in orientation, NOTE I USED KEY VALUE PAIR METHOD
+     */
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("portrait", countPortrait)
+        outState.putInt("landscape", countLandscape)
+    }
+
+    /**
+     * Default onCreate
+     */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        getPortraitTextView = findViewById(R.id.portraitId)
+        getLandscapeTextView = findViewById(R.id.landscapeId)
+
+
+        /**
+         * formular or code that gets screen orientation, and saved inside a variable
+         */
         var getScreenOrientation:Int = resources.configuration.orientation
+
+        /**
+         * Check for change in the on save instance state and assign to the counts variable
+         */
+
+        if (savedInstanceState != null){
+            countPortrait = savedInstanceState?.getInt("portrait")
+            countLandscape = savedInstanceState?.getInt("landscape")
+        }
+
+        /**
+         * Empty varaible that stores orientation change value
+         */
         var mainValue = "";
+
+        /**
+         * Check per orientation
+         */
         if (getScreenOrientation==1){
             mainValue = "Portrait"
-            count++
+            countPortrait++
+
+            getPortraitTextView.text = getString(R.string.portraitValue,countPortrait);
+            getLandscapeTextView.text = getString(R.string.landscapeValue,countLandscape);
         }
         else{
             mainValue = "Landscape"
-            count+=1;
+            countLandscape++
+            getPortraitTextView.text = getString(R.string.portraitValue,countPortrait);
+            getLandscapeTextView.text = getString(R.string.landscapeValue,countLandscape);
         }
 
 
@@ -41,8 +85,8 @@ class MainActivity : AppCompatActivity() {
 
         stateUpdate = findViewById(R.id.stateChangeId);
         orientationUpdate = findViewById(R.id.orientationId)
-        getLandscapeTextView = findViewById(R.id.landscapeId)
-        getPortraitTextView = findViewById(R.id.portraitId)
+
+
 
         /**
          * writes on textviews
@@ -50,8 +94,8 @@ class MainActivity : AppCompatActivity() {
 
         stateUpdate.text = getString(R.string.stateUpdate);
         orientationUpdate.text = getString(R.string.orientation,mainValue);
-        getLandscapeTextView.text = getString(R.string.landscapeValue,count);
-        getPortraitTextView.text = getString(R.string.portraitValue,count);
+
+
     }
     override fun onStart() {
         super.onStart()
